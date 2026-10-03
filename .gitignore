@@ -22,9 +22,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
 # Local AI development instructions
 .dev-instructions.md
 
 # Environment variables
 .env
 .env.*
+
+# Private project planning
+PRD.md
