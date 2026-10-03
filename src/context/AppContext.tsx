@@ -108,6 +108,13 @@ function appReducer(state: AppState, action: AppAction): AppState {
         memories: [action.payload, ...state.memories],
       }
 
+    case 'START_RECORDING':
+      return {
+        ...state,
+        isRecording: true,
+        recordingDuration: 0,
+      }
+
     case 'TOGGLE_RECORDING':
       return {
         ...state,
@@ -119,13 +126,25 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return {
         ...state,
         isRecording: false,
-        recordingDuration: 0,
+      }
+
+    case 'TICK_RECORDING':
+      return {
+        ...state,
+        recordingDuration: state.recordingDuration + 1,
       }
 
     case 'SET_RECORDING_DURATION':
       return {
         ...state,
         recordingDuration: action.payload,
+      }
+
+    case 'ADD_MEETING':
+      return {
+        ...state,
+        meetings: [action.payload, ...state.meetings],
+        recordingDuration: 0,
       }
 
     case 'RESET_DEMO':
@@ -139,6 +158,16 @@ function appReducer(state: AppState, action: AppAction): AppState {
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(appReducer, undefined, loadInitialState)
+
+  useEffect(() => {
+    if (!state.isRecording) return
+
+    const timer = setInterval(() => {
+      dispatch({ type: 'TICK_RECORDING' })
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [state.isRecording])
 
   useEffect(() => {
     try {

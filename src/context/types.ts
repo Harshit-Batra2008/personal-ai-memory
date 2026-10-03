@@ -26,8 +26,11 @@ export type AppAction =
   | { type: 'DELETE_MEMORY'; payload: string }
   | { type: 'ADD_MEMORY'; payload: MemoryItem }
   | { type: 'TOGGLE_RECORDING' }
+  | { type: 'START_RECORDING' }
   | { type: 'STOP_RECORDING' }
+  | { type: 'TICK_RECORDING' }
   | { type: 'SET_RECORDING_DURATION'; payload: number }
+  | { type: 'ADD_MEETING'; payload: MeetingRecord }
   | { type: 'RESET_DEMO' }
 
 export interface AppContextValue {

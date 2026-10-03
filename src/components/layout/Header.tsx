@@ -48,7 +48,14 @@ export const Header: React.FC = () => {
           {/* Quick Mic Toggle (Explicit Consent Trigger) */}
           <button
             type="button"
-            onClick={() => dispatch({ type: 'TOGGLE_RECORDING' })}
+            onClick={() => {
+              if (state.isRecording) {
+                dispatch({ type: 'STOP_RECORDING' })
+              } else {
+                dispatch({ type: 'SET_TAB', payload: 'meetings' })
+                dispatch({ type: 'START_RECORDING' })
+              }
+            }}
             title={state.isRecording ? 'Stop Recording' : 'Start Explicit Recording'}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
               state.isRecording
@@ -59,6 +66,7 @@ export const Header: React.FC = () => {
             <Mic className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">{state.isRecording ? 'Stop' : 'Capture'}</span>
           </button>
+
 
           {/* Reset Demo button */}
           <button
